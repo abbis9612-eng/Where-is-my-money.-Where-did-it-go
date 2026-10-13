@@ -119,14 +119,14 @@ _CatMatch? _category(String word, List<CategorySeed> cats) {
   final bare = _stripPrefix(word);
   for (final c in cats) {
     for (final k in c.keywords) {
-      if (word == k || bare == k || bare == _stripPrefix(k)) return _CatMatch(c.key, bare);
+      if (word == k || bare == k || bare == _stripPrefix(k)) return _CatMatch(c.key, k);
     }
   }
   // Prefix match only for longer keywords, so "مول" (mall) never swallows "مولدة".
   for (final c in cats) {
     for (final k in c.keywords) {
       final kk = _stripPrefix(k);
-      if (kk.length >= 4 && bare.startsWith(kk)) return _CatMatch(c.key, bare);
+      if (kk.length >= 4 && bare.startsWith(kk)) return _CatMatch(c.key, k);
     }
   }
   return null;

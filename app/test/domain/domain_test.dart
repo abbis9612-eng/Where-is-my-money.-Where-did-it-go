@@ -159,7 +159,7 @@ void main() {
       final r = parseExpenseText('صمون 2 وخضرة 5 وبنزين 25');
       expect(r.items.map((e) => e.categoryKey), ['bread_veg', 'bread_veg', 'fuel']);
       expect(r.items.map((e) => e.amountMinor), [2000, 5000, 25000]);
-      expect(r.items.first.label, 'صمون');
+      expect(r.items.map((e) => e.label), ['صمون', 'خضرة', 'بنزين']);
     });
 
     test('spoken numbers', () {
@@ -183,6 +183,7 @@ void main() {
     test('ورقة is a hundred dollars', () {
       final i = one('دفعت ورقة للطبيب');
       expect(i.categoryKey, 'health');
+      expect(i.label, 'طبيب');
       expect(i.currency, Currency.usd);
       expect(i.amountMinor, 10000);
       expect(i.fromSlang, isTrue);

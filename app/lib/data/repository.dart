@@ -695,6 +695,20 @@ class Repository {
   Future<void> reopenInbox(String inboxId) =>
       (db.update(db.inboxItems)..where((i) => i.id.equals(inboxId))).write(const InboxItemsCompanion(status: Value('pending'), txnId: Value(null)));
 
+  Future<void> addEnvelope({required String name, required int monthly, int target = 0, int note = 1000}) async {
+    final hid = (await householdId())!;
+    final t = now();
+    final count = await (db.select(db.envelopes)..where((e) => e.householdId.equals(hid))).get();
+    await db.into(db.envelopes).insert(EnvelopesCompanion.insert(
+          id: newId(), householdId: hid, createdAt: t, updatedAt: t, name: name, kind: 'sinking',
+          targetMinor: Value(target == 0 ? monthly * 12 : target), monthlyMinor: Value(monthly),
+          noteDenomination: Value(note), sortOrder: Value(count.length + 1),
+        ));
+  }
+
+  Future<void> setEnvelopeMonthly(String envelopeId, int monthly) => (db.update(db.envelopes)..where((e) => e.id.equals(envelopeId)))
+      .write(EnvelopesCompanion(monthlyMinor: Value(monthly), updatedAt: Value(now()), dirty: const Value(true)));
+
   // ----------------------------------------------------------------- bills
 
   /// Posts this month's fixed bills on their day. Safe to call repeatedly.
