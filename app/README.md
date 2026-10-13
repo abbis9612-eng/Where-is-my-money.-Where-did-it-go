@@ -1,3 +1,3 @@
 # ween_floosi
 
-A new Flutter project.
+The «وين فلوسي» Flutter app. See the [repository README](../README.md) for features, testing and building.

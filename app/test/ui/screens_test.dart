@@ -1,3 +1,6 @@
+@Tags(['golden'])
+library;
+
 // Renders every main screen with the demo family and saves screenshots
 // (run with --update-goldens to refresh them in test/ui/goldens/).
 import 'dart:io';
