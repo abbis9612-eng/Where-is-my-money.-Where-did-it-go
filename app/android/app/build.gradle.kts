@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "iq.weenfloosi.ween_floosi"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37 // permission_handler_android needs 37; targetSdk stays Flutter's default
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
