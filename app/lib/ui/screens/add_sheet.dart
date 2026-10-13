@@ -12,6 +12,7 @@ import '../../domain/banknotes.dart';
 import '../../domain/dialect_parser.dart';
 import '../../platform/voice.dart';
 import '../../state/providers.dart';
+import '../../sync/sync_service.dart';
 import '../theme/theme.dart';
 import '../widgets/banknote.dart';
 import '../widgets/common.dart';
@@ -41,6 +42,25 @@ class _AddSheetState extends ConsumerState<AddSheet> {
   var _listening = false;
   var _heard = '';
   var _usedVoice = false;
+  var _asking = false;
+
+  Future<void> _askAi() async {
+    setState(() => _asking = true);
+    try {
+      final r = await SyncService.aiParse(_text.text);
+      if (!mounted) return;
+      setState(() => _aiItems = [
+            for (final (label, cat, amount, cur) in r) ParsedItem(label: label, categoryKey: cat, amountMinor: amount, currency: Currency.fromCode(cur)),
+          ]);
+      if (r.isEmpty) Toaster.show(context, 'حتى الذكاء الاصطناعي ما لگى صرفة بالجملة. جربوا: بنزين 25');
+    } catch (_) {
+      if (mounted) Toaster.show(context, 'ما وصلنا للسيرفر. تأكدوا من النت');
+    } finally {
+      if (mounted) setState(() => _asking = false);
+    }
+  }
+
+  List<ParsedItem>? _aiItems;
 
   static const _examples = ['صمون 2 وخضرة 5', 'بنزين 25 ومولدة 75', 'دفعت ورقة للطبيب', 'عشرين ألف مطعم'];
 
@@ -51,7 +71,10 @@ class _AddSheetState extends ConsumerState<AddSheet> {
       _text.text = widget.initialText!;
       _items = parseExpenseText(_text.text).items;
     }
-    _text.addListener(() => setState(() => _items = parseExpenseText(_text.text).items));
+    _text.addListener(() => setState(() {
+          _items = parseExpenseText(_text.text).items;
+          _aiItems = null;
+        }));
     if (widget.startWithVoice) WidgetsBinding.instance.addPostFrameCallback((_) => _startVoice());
   }
 
@@ -63,6 +86,9 @@ class _AddSheetState extends ConsumerState<AddSheet> {
   }
 
   bool get _textMode => _text.text.trim().isNotEmpty;
+
+  /// Items from the on-device parser, or from the cloud fallback when asked.
+  List<ParsedItem> get _effective => _items.isNotEmpty ? _items : (_aiItems ?? const []);
 
   int _usdRate(Snapshot s) => s.household.usdRate;
 
@@ -142,7 +168,7 @@ class _AddSheetState extends ConsumerState<AddSheet> {
     final List<ExpenseDraft> drafts;
     if (_textMode) {
       drafts = [
-        for (final i in _items)
+        for (final i in _effective)
           ExpenseDraft(
             label: i.label,
             categoryKey: i.categoryKey,
@@ -185,7 +211,7 @@ class _AddSheetState extends ConsumerState<AddSheet> {
     if (snap == null) return const SizedBox.shrink();
     final wf = Wf.of(context);
     final left = snap.week.left;
-    final total = _textMode ? _items.fold(0, (a, i) => a + toBaseIqd(i.amountMinor, i.currency, _usdRate(snap))) : _base(snap);
+    final total = _textMode ? _effective.fold(0, (a, i) => a + toBaseIqd(i.amountMinor, i.currency, _usdRate(snap))) : _base(snap);
     final after = left - total;
     _memberId ??= snap.me.id;
 
@@ -193,7 +219,7 @@ class _AddSheetState extends ConsumerState<AddSheet> {
     if (total <= 0) {
       cta = _textMode ? 'اكتبوا الشي والمبلغ' : 'اكتبوا المبلغ';
     } else {
-      final head = _textMode && _items.length > 1 ? 'سجّلوا ${_items.length} صرفات' : 'سجّلوها';
+      final head = _textMode && _effective.length > 1 ? 'سجّلوا ${_effective.length} صرفات' : 'سجّلوها';
       cta = after >= 0 ? '$head · يبقى ${formatAmount(after)}' : '$head · تعدّيتوا بـ ${formatAmount(-after)}';
     }
 
@@ -375,8 +401,9 @@ class _AddSheetState extends ConsumerState<AddSheet> {
 
   Widget _parsedList(Snapshot snap) {
     final wf = Wf.of(context);
+    final items = _effective;
     return ListView(padding: const EdgeInsets.fromLTRB(16, 12, 16, 0), children: [
-      for (final i in _items)
+      for (final i in items)
         Container(
           margin: const EdgeInsets.only(bottom: 8),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -396,12 +423,21 @@ class _AddSheetState extends ConsumerState<AddSheet> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
         child: Text(
-          _items.isEmpty
+          items.isEmpty
               ? 'اكتبوا الشي والمبلغ، مثلاً: بنزين 25'
-              : 'فهمت ${_items.length} ${_items.length == 1 ? 'صرفة' : 'صرفات'}. إذا شي غلط، صحّحوا الجملة.',
+              : 'فهمت ${items.length} ${items.length == 1 ? 'صرفة' : 'صرفات'}${_items.isEmpty ? ' بالذكاء الاصطناعي' : ''}. إذا شي غلط، صحّحوا الجملة.',
           style: TextStyle(fontSize: 12, color: wf.mute),
         ),
       ),
+      if (items.isEmpty && SyncService.signedIn)
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: TextButton.icon(
+            onPressed: _asking ? null : _askAi,
+            icon: _asking ? const SizedBox.square(dimension: 16, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.auto_awesome_outlined),
+            label: const Text('خلّوا الذكاء الاصطناعي يفهمها'),
+          ),
+        ),
     ]);
   }
 }

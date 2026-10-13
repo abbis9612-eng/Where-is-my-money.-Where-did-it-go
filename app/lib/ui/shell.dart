@@ -8,6 +8,7 @@ import '../data/snapshot.dart';
 import '../platform/lock.dart';
 import '../platform/sms.dart';
 import '../state/providers.dart';
+import '../sync/sync_service.dart';
 import 'screens/add_sheet.dart';
 import 'screens/envelopes_screen.dart';
 import 'screens/family_screen.dart';
@@ -34,6 +35,7 @@ class _RootGateState extends ConsumerState<RootGate> with WidgetsBindingObserver
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    SyncService.start(ref.read(repositoryProvider));
     _onOpen();
   }
 
@@ -63,6 +65,11 @@ class _RootGateState extends ConsumerState<RootGate> with WidgetsBindingObserver
     if (!await repo.hasHousehold()) return;
     await repo.postDueBills();
     await SmsReader.scan(repo);
+    try {
+      await SyncService.syncNow(repo);
+    } catch (_) {
+      // Offline is normal; the next resume or change tries again.
+    }
   }
 
   Future<void> _unlock() async {

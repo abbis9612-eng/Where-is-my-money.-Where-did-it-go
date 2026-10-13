@@ -10,6 +10,7 @@ import '../../data/repository.dart';
 import '../../domain/banknotes.dart';
 import '../../domain/budget.dart';
 import '../../state/providers.dart';
+import '../../sync/sync_screen.dart';
 import '../theme/theme.dart';
 import '../widgets/banknote.dart';
 import '../widgets/guilloche.dart';
@@ -123,6 +124,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       decoration: BoxDecoration(color: i == _step ? Wf.vaultMint : Colors.white24, borderRadius: BorderRadius.circular(4)),
                     ),
                   const Spacer(),
+                  if (_step == 0)
+                    TextButton(
+                      onPressed: _busy ? null : () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const SyncScreen(joinMode: true))),
+                      child: const Text('عندي كود دعوة', style: TextStyle(color: Wf.vaultMuted)),
+                    ),
                   if (_step == 0)
                     TextButton(
                       onPressed: _busy ? null : _demo,
