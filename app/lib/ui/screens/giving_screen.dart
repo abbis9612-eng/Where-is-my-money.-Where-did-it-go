@@ -447,8 +447,9 @@ class _FitrCardState extends ConsumerState<_FitrCard> {
   @override
   void initState() {
     super.initState();
+    _per.text = '$kFitrIraq1447';
     ref.read(repositoryProvider).getValue('fitr_per').then((v) {
-      if (v != null && mounted) setState(() => _per.text = v);
+      if (v != null && v.isNotEmpty && mounted) setState(() => _per.text = v);
     });
   }
 
@@ -478,7 +479,7 @@ class _FitrCardState extends ConsumerState<_FitrCard> {
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textDirection: TextDirection.ltr,
-          decoration: const InputDecoration(labelText: 'المبلغ عن كل شخص', suffixText: 'د.ع', helperText: 'المبلغ المعلن هالسنة من الجهة اللي تتبعون فتواها'),
+          decoration: const InputDecoration(labelText: 'المبلغ عن كل شخص', suffixText: 'د.ع', helperText: 'غيّروه حسب الجهة اللي تتبعون فتواها'),
           onChanged: (v) {
             setState(() {});
             ref.read(repositoryProvider).setValue('fitr_per', v);

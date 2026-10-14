@@ -19,6 +19,7 @@ import 'package:ween_floosi/state/providers.dart';
 import 'package:ween_floosi/ui/screens/add_sheet.dart';
 import 'package:ween_floosi/ui/screens/afford_sheet.dart';
 import 'package:ween_floosi/ui/screens/friday_screen.dart';
+import 'package:ween_floosi/ui/screens/giving_screen.dart';
 import 'package:ween_floosi/ui/screens/inbox_sheet.dart';
 import 'package:ween_floosi/ui/screens/kid_screen.dart';
 import 'package:ween_floosi/ui/screens/onboarding_screen.dart';
@@ -54,7 +55,7 @@ void main() {
 
   setUpAll(_loadFonts);
 
-  Future<void> boot(WidgetTester tester, {bool dark = false, bool seed = true, Widget? home}) async {
+  Future<void> boot(WidgetTester tester, {bool dark = false, bool seed = true, Widget? home, Future<void> Function()? setup}) async {
     tester.view.physicalSize = const Size(390 * 3, 844 * 3);
     tester.view.devicePixelRatio = 3;
     addTearDown(tester.view.reset);
@@ -62,6 +63,9 @@ void main() {
       db = AppDatabase(NativeDatabase.memory());
       repo = Repository(db, clock: () => clock);
       if (seed) await seedDemo(repo);
+      // Writes must happen before the app listens: a query started in the
+      // fake clock holds the database until the next pump.
+      if (setup != null) await setup();
     });
     await tester.pumpWidget(ProviderScope(
       overrides: [databaseProvider.overrideWithValue(db), repositoryProvider.overrideWithValue(repo)],
@@ -168,6 +172,24 @@ void main() {
     await boot(tester);
     Navigator.of(tester.element(find.byType(Shell))).push(MaterialPageRoute<void>(builder: (_) => const FridayScreen()));
     await shot(tester, '14_friday');
+    await done(tester);
+  });
+
+  testWidgets('giving', (tester) async {
+    await boot(tester, setup: () async {
+      final eid = await repo.addSadaqaEnvelope(10000);
+      final s = (await repo.loadSnapshot())!;
+      await repo.runPayday(salary: 1250000, savePercent: 10, walletId: s.walletOfKind('qi_card')!.id);
+      await repo.giveSadaqa(eid, 4000);
+      await repo.setValue('zakat_inputs', '{"g21":"40","gPrice":"150000","sPrice":"2000","basis":"gold","deduct":false}');
+      await repo.setValue('zakat_start', '2026-03-01T00:00:00.000');
+    });
+    Navigator.of(tester.element(find.byType(Shell))).push(MaterialPageRoute<void>(builder: (_) => const GivingScreen()));
+    await shot(tester, '16_giving');
+    await tester.drag(find.byType(ListView).last, const Offset(0, -900));
+    await shot(tester, '17_zakat');
+    await tester.drag(find.byType(ListView).last, const Offset(0, -900));
+    await shot(tester, '18_zakat_fitr');
     await done(tester);
   });
 
