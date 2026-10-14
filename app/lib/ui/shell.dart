@@ -30,6 +30,8 @@ class RootGate extends ConsumerStatefulWidget {
 class _RootGateState extends ConsumerState<RootGate> with WidgetsBindingObserver {
   var _locked = false;
   var _checkedLock = false;
+  // The fingerprint prompt itself backgrounds the app; ignore those events.
+  var _authenticating = false;
 
   @override
   void initState() {
@@ -47,6 +49,7 @@ class _RootGateState extends ConsumerState<RootGate> with WidgetsBindingObserver
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_authenticating) return;
     if (state == AppLifecycleState.resumed) _onOpen();
     if (state == AppLifecycleState.hidden) _lockIfEnabled();
   }
@@ -63,17 +66,22 @@ class _RootGateState extends ConsumerState<RootGate> with WidgetsBindingObserver
     }
     if (_locked) await _unlock();
     if (!await repo.hasHousehold()) return;
-    await repo.postDueBills();
-    await SmsReader.scan(repo);
+    // Chores never block the screen; a failure waits for the next resume.
     try {
+      await repo.postDueBills();
+      await SmsReader.scan(repo);
       await SyncService.syncNow(repo);
-    } catch (_) {
-      // Offline is normal; the next resume or change tries again.
-    }
+    } catch (_) {}
   }
 
   Future<void> _unlock() async {
-    if (await AppLock.unlock() && mounted) setState(() => _locked = false);
+    if (_authenticating) return;
+    _authenticating = true;
+    try {
+      if (await AppLock.unlock() && mounted) setState(() => _locked = false);
+    } finally {
+      _authenticating = false;
+    }
   }
 
   @override

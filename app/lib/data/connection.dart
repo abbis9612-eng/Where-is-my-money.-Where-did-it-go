@@ -21,7 +21,9 @@ Future<AppDatabase> openAppDatabase() async {
   return AppDatabase(driftDatabase(
     name: 'ween_floosi',
     native: DriftNativeOptions(
-      shareAcrossIsolates: true,
+      // Not shared across isolates: after Android's back button the process
+      // survives but the old isolate is unreachable, and reconnecting to it
+      // hung the app on its splash screen.
       setup: (db) {
         // Fails fast if the build were ever linked against plain SQLite.
         db.select('SELECT sqlite3mc_version()');
