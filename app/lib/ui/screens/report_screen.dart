@@ -8,6 +8,8 @@ import '../../core/money.dart';
 import '../../data/snapshot.dart';
 import '../../domain/budget.dart';
 import '../../state/providers.dart';
+import '../../domain/barakah.dart';
+import '../widgets/barakah_card.dart';
 import '../theme/theme.dart';
 import '../widgets/common.dart';
 import '../widgets/guilloche.dart';
@@ -68,6 +70,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                 )
               : _body(context, r),
         ),
+        BarakahCard(place: BarakahPlace.family, day: DateTime(_month.year, _month.month, 1)),
       ]),
     );
   }

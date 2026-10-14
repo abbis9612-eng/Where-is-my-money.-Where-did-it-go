@@ -55,6 +55,8 @@ const kDefaultCategories = <CategorySeed>[
       keywords: ['ملابس', 'حذاء', 'قندرة', 'نعال', 'قميص', 'بنطرون', 'دشداشة']),
   CategorySeed(key: 'occasions', name: 'مناسبات', kind: CategoryKind.expense, group: CategoryGroup.wants,
       keywords: ['هدية', 'عرس', 'مناسبة', 'عيدية', 'فاتحة', 'تعزية']),
+  CategorySeed(key: 'sadaqa', name: 'صدقة وزكاة', kind: CategoryKind.expense, group: CategoryGroup.needs,
+      keywords: ['صدقة', 'صدقات', 'تبرع', 'تبرعت', 'زكاة', 'زكاه', 'فطرة', 'فطره', 'خيرات']),
   CategorySeed(key: 'small', name: 'أشياء صغيرة', kind: CategoryKind.expense, group: CategoryGroup.wants),
   CategorySeed(key: 'other', name: 'غيرها', kind: CategoryKind.expense, group: CategoryGroup.wants),
   CategorySeed(key: 'salary', name: 'راتب', kind: CategoryKind.income, group: CategoryGroup.needs,

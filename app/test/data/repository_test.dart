@@ -102,6 +102,38 @@ void main() {
     expect(next.week.left, next.weeklyAllowance + 5000);
   });
 
+  test('charity envelope: filled on payday, given without touching the week', () async {
+    await basicHousehold();
+    final eid = await repo.addSadaqaEnvelope(10000);
+    final s = (await repo.loadSnapshot())!;
+    expect(s.sadaqa!.envelope.id, eid);
+    await repo.runPayday(salary: 1250000, savePercent: 10, walletId: s.walletOfKind('qi_card')!.id);
+    expect((await repo.loadSnapshot())!.sadaqa!.balance, 10000);
+    await repo.giveSadaqa(eid, 4000);
+    final s2 = (await repo.loadSnapshot())!;
+    expect(s2.sadaqa!.balance, 6000);
+    expect(s2.week.spent, 0, reason: 'charity from its envelope is not weekly spending');
+    expect(await repo.sadaqaGivenSince(DateTime(2026, 10, 1)), 4000);
+  });
+
+  test('friday surplus can go to the charity envelope', () async {
+    await basicHousehold();
+    final eid = await repo.addSadaqaEnvelope(5000);
+    final s = (await repo.loadSnapshot())!;
+    await repo.closeWeek(weekStart: s.week.weekStart, leftover: 15000, toVault: 2000, envelopeId: eid);
+    final s2 = (await repo.loadSnapshot())!;
+    expect(s2.sadaqa!.balance, 2000);
+    expect(s2.vault!.balance, 0);
+  });
+
+  test('categories added in later versions are filled in', () async {
+    await basicHousehold();
+    await (db.delete(db.categories)..where((c) => c.key.equals('sadaqa'))).go();
+    await repo.ensureDefaultCategories();
+    final s = (await repo.loadSnapshot())!;
+    expect(s.categoryName('sadaqa'), 'صدقة وزكاة');
+  });
+
   test('counting the wallet logs the gap as small spending', () async {
     await basicHousehold();
     final s = (await repo.loadSnapshot())!;

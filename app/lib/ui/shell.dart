@@ -68,6 +68,7 @@ class _RootGateState extends ConsumerState<RootGate> with WidgetsBindingObserver
     if (!await repo.hasHousehold()) return;
     // Chores never block the screen; a failure waits for the next resume.
     try {
+      await repo.ensureDefaultCategories();
       await repo.postDueBills();
       await SmsReader.scan(repo);
       await SyncService.syncNow(repo);

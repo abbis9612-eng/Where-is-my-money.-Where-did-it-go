@@ -570,6 +570,54 @@ class Repository {
   Future<String> takeFromEnvelope(String envelopeId, int amount, {String? toWalletId}) =>
       _insertTxn(kind: 'envelope_out', amount: amount, envelopeId: envelopeId, walletId: toWalletId, label: 'من الظرف');
 
+  /// Adds categories introduced after this household was created.
+  Future<void> ensureDefaultCategories() async {
+    final hid = await householdId();
+    if (hid == null) return;
+    final have = {for (final c in await (db.select(db.categories)..where((c) => c.householdId.equals(hid))).get()) c.key};
+    final t = now();
+    var order = have.length;
+    for (final c in kDefaultCategories.where((c) => !have.contains(c.key))) {
+      await db.into(db.categories).insert(CategoriesCompanion.insert(
+            id: newId(), householdId: hid, createdAt: t, updatedAt: t, key: c.key, name: c.name,
+            kind: c.kind.name, groupName: c.group.name, isFixed: Value(c.fixed),
+            keywords: Value(c.keywords.join(',')), sortOrder: Value(order++),
+          ));
+    }
+  }
+
+  // ----------------------------------------------------------------- giving
+
+  /// The charity envelope: filled from each salary, emptied as it is given.
+  Future<String> addSadaqaEnvelope(int monthly) async {
+    final hid = (await householdId())!;
+    final t = now();
+    final count = await (db.select(db.envelopes)..where((e) => e.householdId.equals(hid))).get();
+    final id = newId();
+    await db.into(db.envelopes).insert(EnvelopesCompanion.insert(
+          id: id, householdId: hid, createdAt: t, updatedAt: t, name: 'الصدقة', kind: 'sadaqa',
+          monthlyMinor: Value(monthly), noteDenomination: const Value(1000), sortOrder: Value(count.length + 1),
+        ));
+    return id;
+  }
+
+  /// Records charity given out of the charity envelope.
+  Future<String> giveSadaqa(String envelopeId, int amount, {String label = 'صدقة'}) async {
+    final me = await getValue('me_member_id');
+    return _insertTxn(kind: 'envelope_out', amount: amount, envelopeId: envelopeId, label: label, memberId: me, source: 'sadaqa', categoryKey: 'sadaqa');
+  }
+
+  /// Charity given since [from], from the envelope and logged as spending.
+  Future<int> sadaqaGivenSince(DateTime from) async {
+    final hid = await householdId();
+    if (hid == null) return 0;
+    final rows = await (db.select(db.txns)
+          ..where((x) =>
+              x.householdId.equals(hid) & x.deletedAt.isNull() & x.categoryKey.equals('sadaqa') & x.occurredAt.isBiggerOrEqualValue(from) & x.kind.isIn(['envelope_out', 'expense'])))
+        .get();
+    return rows.fold<int>(0, (a, x) => a + x.amountBase);
+  }
+
   /// Pay yourself first: salary in, vault and envelopes funded before anything else.
   Future<void> runPayday({required int salary, required int savePercent, required String walletId}) async {
     final snap = (await loadSnapshot())!;
@@ -588,12 +636,13 @@ class Repository {
   }
 
   /// Friday: what is left goes to the vault, the rest is carried into next week.
-  Future<void> closeWeek({required DateTime weekStart, required int leftover, required int toVault}) async {
+  Future<void> closeWeek({required DateTime weekStart, required int leftover, required int toVault, String? envelopeId}) async {
     final snap = (await loadSnapshot())!;
     final t = now();
     await db.transaction(() async {
-      if (toVault > 0 && snap.vault != null) {
-        await moveToEnvelope(snap.vault!.envelope.id, toVault, source: 'friday');
+      final target = envelopeId ?? snap.vault?.envelope.id;
+      if (toVault > 0 && target != null) {
+        await moveToEnvelope(target, toVault, source: 'friday');
       }
       final existing = await (db.select(db.weekCloses)..where((w) => w.weekStart.equals(weekStart) & w.householdId.equals(snap.household.id))).getSingleOrNull();
       final carried = leftover - toVault < 0 ? 0 : leftover - toVault;

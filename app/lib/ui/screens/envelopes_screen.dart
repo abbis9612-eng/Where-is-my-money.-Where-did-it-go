@@ -10,6 +10,9 @@ import '../../core/money.dart';
 import '../../data/snapshot.dart';
 import '../../domain/budget.dart';
 import '../../state/providers.dart';
+import '../../domain/barakah.dart';
+import '../widgets/barakah_card.dart';
+import 'giving_screen.dart';
 import '../theme/theme.dart';
 import '../widgets/banknote.dart';
 import '../widgets/common.dart';
@@ -24,7 +27,7 @@ class EnvelopesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final wf = Wf.of(context);
     final vault = snap.vault;
-    final others = snap.envelopes.where((e) => e.envelope.kind != 'vault').toList();
+    final others = snap.envelopes.where((e) => e.envelope.kind != 'vault' && e.envelope.kind != 'sadaqa').toList();
     final month = '${snap.now.year}-${snap.now.month.toString().padLeft(2, '0')}';
     final bills = snap.bills.where((b) => b.active).toList()..sort((a, b) => a.dayOfMonth.compareTo(b.dayOfMonth));
     return SafeArea(
@@ -56,6 +59,7 @@ class EnvelopesScreen extends ConsumerWidget {
             children: [for (final e in others) _Envelope(view: e, owner: snap.memberById(e.envelope.memberId)?.displayName)],
           ),
         ),
+        _SadaqaRow(view: snap.sadaqa),
         if (bills.isNotEmpty) ...[
           const _Explain(title: 'الفواتير الثابتة', body: 'تنقطع لحالها من الراتب بيومها كل شهر، وما تحتاجون تسجّلوها.'),
           WfCard(
@@ -319,9 +323,11 @@ class _SalarySplit extends StatelessWidget {
     final plan = snap.monthlyPlan;
     if (plan.salary <= 0) return const SizedBox.shrink();
     final split = splitSalary(plan, snap.now);
+    final sadaqa = snap.sadaqa?.envelope.monthlyMinor ?? 0;
     final parts = [
       ('الخزنة: ادّخار أول شي', split.save, const Color(0xFFB8913C)),
-      ('ظروف الأهداف', split.envelopes, const Color(0xFF1B675B)),
+      ('ظروف الأهداف', split.envelopes - sadaqa, const Color(0xFF1B675B)),
+      ('الصدقة', sadaqa, const Color(0xFF6B5AA8)),
       ('الفواتير الثابتة', split.bills, const Color(0xFFB4573F)),
       ('مصروف البيت بالأسابيع', split.spend, const Color(0xFF8C9C96)),
     ].where((p) => p.$2 > 0).toList();
@@ -361,6 +367,38 @@ class _SalarySplit extends StatelessWidget {
               Text(inThousands(p.$2), style: WfText.money(13, weight: FontWeight.w500, color: wf.ink)),
             ]),
           ),
+      ]),
+    );
+  }
+}
+
+/// The charity envelope as one row; opens «الصدقة والزكاة».
+class _SadaqaRow extends StatelessWidget {
+  const _SadaqaRow({required this.view});
+  final EnvelopeView? view;
+
+  @override
+  Widget build(BuildContext context) {
+    final wf = Wf.of(context);
+    final v = view;
+    return WfCard(
+      margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+      radius: 18,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const GivingScreen())),
+      child: Row(children: [
+        Icon(Icons.volunteer_activism_outlined, color: wf.goldInk),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(v == null ? 'الصدقة والزكاة' : 'ظرف الصدقة', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, height: 1.4)),
+            Text(
+              v == null ? 'سوّوا ظرف صدقة من الراتب، واحسبوا زكاتكم' : 'بيه ${inThousands(v.balance)} · كل شهر ${inThousands(v.envelope.monthlyMinor)}',
+              style: TextStyle(fontSize: 12, color: wf.mute, height: 1.5),
+            ),
+          ]),
+        ),
+        Icon(Icons.chevron_left, color: wf.mute),
       ]),
     );
   }
@@ -463,6 +501,7 @@ class _PaydaySheetState extends ConsumerState<PaydaySheet> {
           ),
         ]),
       ),
+      const BarakahCard(place: BarakahPlace.payday),
       Padding(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
         child: Row(children: [

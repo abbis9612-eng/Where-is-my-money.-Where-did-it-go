@@ -101,6 +101,13 @@ class Snapshot {
     return null;
   }
 
+  EnvelopeView? get sadaqa {
+    for (final e in envelopes) {
+      if (e.envelope.kind == 'sadaqa') return e;
+    }
+    return null;
+  }
+
   Member? memberById(String? id) {
     for (final m in members) {
       if (m.id == id) return m;

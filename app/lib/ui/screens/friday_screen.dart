@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/money.dart';
 import '../../domain/banknotes.dart';
 import '../../state/providers.dart';
+import '../../domain/barakah.dart';
+import '../widgets/barakah_card.dart';
 import '../theme/theme.dart';
 import '../widgets/banknote.dart';
 import '../widgets/common.dart';
@@ -166,6 +168,22 @@ class _FridayScreenState extends ConsumerState<FridayScreen> {
               ),
             ),
         ],
+        if (snap.sadaqa != null && snap.week.left - _deposited >= 1000)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+            child: OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+              icon: const Icon(Icons.volunteer_activism_outlined),
+              label: Text('حطّوا ${inThousands(_sadaqaShare(snap.week.left - _deposited))} من الفائض بظرف الصدقة'),
+              onPressed: () async {
+                final amt = _sadaqaShare(snap.week.left - _deposited);
+                setState(() => _deposited += amt);
+                await ref.read(repositoryProvider).closeWeek(weekStart: snap.week.weekStart, leftover: snap.week.left, toVault: amt, envelopeId: snap.sadaqa!.envelope.id);
+                if (context.mounted) Toaster.show(context, 'تقبّل الله. انحطّت ${inThousands(amt)} بظرف الصدقة');
+              },
+            ),
+          ),
+        BarakahCard(place: BarakahPlace.friday, day: snap.now),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
           child: Text('شنو فاجأكم هالأسبوع؟', style: Theme.of(context).textTheme.titleLarge),
@@ -189,6 +207,9 @@ class _FridayScreenState extends ConsumerState<FridayScreen> {
       ]),
     );
   }
+
+  /// A tenth of what is left, at least a thousand, in whole thousands.
+  int _sadaqaShare(int rest) => (rest ~/ 10 ~/ 1000 * 1000).clamp(1000, rest ~/ 1000 * 1000);
 
   Widget _draggable(int i, int d) {
     final note = AnimatedRotation(

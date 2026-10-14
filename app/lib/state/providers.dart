@@ -46,3 +46,6 @@ class TabNotifier extends Notifier<int> {
 }
 
 final tabProvider = NotifierProvider<TabNotifier, int>(TabNotifier.new);
+
+/// «لمسة بركة» on or off (on unless the family turned it off).
+final barakahOnProvider = StreamProvider<bool>((ref) => ref.watch(repositoryProvider).watchValue('barakah').map((v) => v != '0'));

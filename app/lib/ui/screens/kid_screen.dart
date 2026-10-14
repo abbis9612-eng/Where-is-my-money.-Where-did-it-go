@@ -8,6 +8,8 @@ import '../../core/money.dart';
 import '../../data/snapshot.dart';
 import '../../state/providers.dart';
 import '../format.dart';
+import '../../domain/barakah.dart';
+import '../widgets/barakah_card.dart';
 import '../theme/theme.dart';
 import '../widgets/banknote.dart';
 import '../widgets/common.dart';
@@ -162,6 +164,7 @@ class _KidScreenState extends ConsumerState<KidScreen> with TickerProviderStateM
               child: const Text('نزّلوا مصروف الأسبوع (للأهل)'),
             ),
           ),
+          const BarakahCard(place: BarakahPlace.kid),
         ]),
         if (_from != null && _to != null)
           AnimatedBuilder(

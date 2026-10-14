@@ -162,6 +162,12 @@ void main() {
       expect(r.items.map((e) => e.label), ['صمون', 'خضرة', 'بنزين']);
     });
 
+    test('charity words go to the charity category', () {
+      final r = parseExpenseText('صدقة 5 وتبرع 10');
+      expect(r.items.map((e) => e.categoryKey), ['sadaqa', 'sadaqa']);
+      expect(r.items.map((e) => e.amountMinor), [5000, 10000]);
+    });
+
     test('spoken numbers', () {
       expect(one('صرفت خمسة وعشرين بقالة').amountMinor, 25000);
       expect(one('صمون ألفين').amountMinor, 2000);

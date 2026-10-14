@@ -30,7 +30,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   Future<void> _load() async {
     final repo = ref.read(repositoryProvider);
-    for (final k in ['sms_enabled', 'remind_evening', 'remind_friday', 'lock']) {
+    for (final k in ['sms_enabled', 'remind_evening', 'remind_friday', 'lock', 'barakah']) {
       _values[k] = await repo.getValue(k);
     }
     if (mounted) setState(() {});
@@ -148,6 +148,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               },
             ),
           ]),
+        ),
+        const SectionTitle('لمسة بركة'),
+        WfCard(
+          padding: EdgeInsets.zero,
+          child: SwitchListTile(
+            title: const Text('آيات وأحاديث بمكانها'),
+            subtitle: Text('آية أو حديث صحيح وياه مصدره، يطلع يوم الراتب والجمعة ووقت الدين', style: TextStyle(color: wf.mute, fontSize: 12)),
+            value: _values['barakah'] != '0',
+            onChanged: (v) => _set('barakah', v),
+          ),
         ),
         const SectionTitle('الشكل والأمان'),
         WfCard(

@@ -11,6 +11,9 @@ import '../../data/snapshot.dart';
 import '../../domain/budget.dart';
 import '../../domain/rosca.dart' as d;
 import '../../state/providers.dart';
+import '../../domain/barakah.dart';
+import '../widgets/barakah_card.dart';
+import 'giving_screen.dart';
 import '../theme/theme.dart';
 import '../widgets/common.dart';
 import 'friday_screen.dart';
@@ -70,12 +73,28 @@ class FamilyScreen extends ConsumerWidget {
             ),
           ),
         for (final k in snap.kids) _KidCard(kid: k),
+        const SectionTitle('الصدقة والزكاة'),
+        WfCard(
+          radius: 18,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const GivingScreen())),
+          child: Row(children: [
+            Icon(Icons.volunteer_activism_outlined, color: wf.goldInk),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(snap.sadaqa == null ? 'ظرف صدقة من الراتب، حاسبة الزكاة، وزكاة الفطر' : 'ظرف الصدقة بيه ${inThousands(snap.sadaqa!.balance)} · حاسبة الزكاة · زكاة الفطر',
+                  style: const TextStyle(fontSize: 14, height: 1.5)),
+            ),
+            Icon(Icons.chevron_left, color: wf.mute),
+          ]),
+        ),
         const SectionTitle('الجمعية', trailing: 'ما نمسك فلوس، بس نرتّب'),
         if (snap.roscas.isEmpty)
           _EmptyAction(text: 'عندكم جمعية؟ سجّلوها حتى تعرفون دوركم ومتى تدفعون.', action: 'أضيفوا جمعية', onTap: () => _addRosca(context, ref))
         else
           for (final r in snap.roscas) _RoscaCard(rosca: r, now: snap.now),
         SectionTitle('الديون', trailing: 'بيناتنا وبين الأهل والأصدقاء', padding: const EdgeInsets.fromLTRB(20, 22, 20, 8)),
+        const BarakahCard(place: BarakahPlace.debt, margin: EdgeInsets.fromLTRB(16, 0, 16, 10)),
         _DebtSummary(debts: snap.debts),
         _DebtList(debts: snap.debts),
         SectionTitle('الفواتير الثابتة', trailing: '${formatAmount(snap.fixedBillsTotal)} بالشهر', padding: const EdgeInsets.fromLTRB(20, 22, 20, 8)),

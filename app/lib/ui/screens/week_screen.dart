@@ -10,6 +10,9 @@ import '../../data/snapshot.dart';
 import '../../domain/banknotes.dart';
 import '../../domain/budget.dart';
 import '../../state/providers.dart';
+import '../../domain/barakah.dart';
+import '../widgets/barakah_card.dart';
+import '../../domain/zakat.dart';
 import '../theme/theme.dart';
 import '../widgets/banknote.dart';
 import '../widgets/common.dart';
@@ -101,7 +104,9 @@ class WeekScreen extends ConsumerWidget {
                   subtitle: 'اكتبوا سعره ونگلكم يمشي ويا الأسبوع لو لا',
                   onTap: () => showWfSheet(context, (_) => const AffordSheet(), heightFactor: .9),
                 ),
-                _TodayList(snap: snap),
+                BarakahCard(place: w.over ? BarakahPlace.over : BarakahPlace.daily, day: snap.now),
+            if (isFitrSeason(snap.now)) BarakahCard(place: BarakahPlace.fitr, day: snap.now),
+            _TodayList(snap: snap),
                 const SizedBox(height: 24),
               ],
             ),
