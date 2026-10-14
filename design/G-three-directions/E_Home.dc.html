@@ -18,29 +18,32 @@ button{font-family:inherit;cursor:pointer}
 .bn{position:absolute;width:118px;height:54px;border-radius:7px;overflow:hidden;box-shadow:0 16px 24px -14px rgba(14,59,50,.55),inset 0 1px 0 rgba(255,255,255,.3);background-image:repeating-radial-gradient(circle at 26% 52%,rgba(255,255,255,.12) 0 1px,transparent 1px 5px),repeating-linear-gradient(100deg,rgba(255,255,255,.05) 0 1px,transparent 1px 4px),linear-gradient(135deg,rgba(255,255,255,.18),rgba(0,0,0,.2))}
 .bn-frame{position:absolute;inset:4px;border:1px solid rgba(255,255,255,.4);border-radius:4px}
 .day{display:flex;flex-direction:column;align-items:center;gap:3px}
-.bar{width:100%;height:30px;border-radius:8px;background:#EEF2F0;display:flex;align-items:flex-end;overflow:hidden}
+.bar{width:100%;height:28px;border-radius:8px;background:#EEF2F0;display:flex;align-items:flex-end;overflow:hidden}
+.ico{width:42px;height:42px;border-radius:14px;background:#F2F6F4;color:#0E3B32;display:flex;align-items:center;justify-content:center;flex:none}
+.tab{min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;font-size:12.5px;color:#5C6662;border-radius:16px}
 </style>
 </helmet>
-<div style="width:390px;height:844px;box-sizing:border-box;background:radial-gradient(80% 30% at 20% 24%,#EAF3EF 0%,#FFFFFF 100%);font-family:'IBM Plex Sans Arabic',sans-serif;color:#111714;direction:rtl;display:flex;flex-direction:column;padding:14px 22px 14px;overflow:hidden">
+<div style="--bg:#FFFFFF;width:390px;height:844px;box-sizing:border-box;background:radial-gradient(80% 28% at 20% 22%,#EAF3EF 0%,#FFFFFF 100%);font-family:'IBM Plex Sans Arabic',sans-serif;color:#111714;direction:rtl;display:flex;flex-direction:column;padding:14px 20px 10px;overflow:hidden">
 
 <header style="display:flex;align-items:center">
-<div style="flex:1"><div style="font-family:'Aref Ruqaa',serif;font-size:22px;color:#0E3B32;line-height:1.2">وين فلوسي</div><div style="font-size:12.5px;color:#5C6662">الثلاثاء، 14 تشرين الأول</div></div>
+<div style="flex:1"><div style="font-family:'Aref Ruqaa',serif;font-size:22px;color:#0E3B32;line-height:1.2">وين فلوسي</div><div style="font-size:12px;color:#5C6662">الثلاثاء، 14 تشرين الأول</div></div>
 <a href="#" aria-label="أنت بابا، العائلة" style="width:42px;height:42px;border-radius:50%;background:#F4F7F5;border:1.5px solid #E3D3A6;display:flex;align-items:center;justify-content:center;color:#0E3B32;text-decoration:none;font-weight:600">ب</a>
 </header>
 
-<div style="position:relative;margin-top:14px;min-height:150px">
-<div style="font-size:19px;font-weight:500;color:#5C6662">صباح الخير يا بابا، باقي إلكم</div>
-<div style="display:flex;align-items:baseline;gap:8px;margin-top:2px"><span class="n" style="font-size:92px;font-weight:500;line-height:1;letter-spacing:-3px;color:#0E3B32">109</span><span style="font-size:32px;font-weight:700">ألف</span></div>
-<div aria-hidden="true" style="position:absolute;left:-10px;top:30px;width:136px;height:130px">
-<div class="bn" style="left:8px;top:58px;background-color:#8C6D2B;transform:rotate(-12deg)"><div class="bn-frame"></div></div>
-<div class="bn" style="left:4px;top:42px;background-color:#33508E;transform:rotate(-5deg)"><div class="bn-frame"></div></div>
-<div class="bn" style="left:10px;top:24px;background-color:#9E4430;transform:rotate(5deg)"><div class="bn-frame"></div><span class="n" style="position:absolute;top:5px;right:8px;font-weight:600;font-size:14px;color:#fff">25,000</span><span style="position:absolute;bottom:5px;right:8px;font-family:'Aref Ruqaa',serif;font-size:9px;color:#fff">خمسة وعشرون ألف دينار</span></div>
+<section aria-label="باقي هالأسبوع" style="margin-top:10px">
+<div style="font-size:18px;font-weight:500;color:#5C6662">صباح الخير يا بابا، باقي إلكم</div>
+<div style="display:flex;align-items:center;gap:6px">
+<div style="flex:1;display:flex;align-items:baseline;gap:8px"><span class="n" style="font-size:90px;font-weight:500;line-height:1;letter-spacing:-3px;color:#0E3B32">109</span><span style="font-size:30px;font-weight:700">ألف</span></div>
+<div aria-hidden="true" style="position:relative;width:132px;height:100px;flex:none">
+<div class="bn" style="left:8px;top:40px;background-color:#8C6D2B;transform:rotate(-12deg)"><div class="bn-frame"></div></div>
+<div class="bn" style="left:4px;top:24px;background-color:#33508E;transform:rotate(-5deg)"><div class="bn-frame"></div></div>
+<div class="bn" style="left:10px;top:6px;background-color:#9E4430;transform:rotate(5deg)"><div class="bn-frame"></div><span class="n" style="position:absolute;top:5px;right:8px;font-weight:600;font-size:14px;color:#fff">25,000</span><span style="position:absolute;bottom:5px;right:8px;font-family:'Aref Ruqaa',serif;font-size:9px;color:#fff">خمسة وعشرون ألف دينار</span></div>
 </div>
 </div>
+<p style="margin:6px 0 0;font-size:18px;line-height:1.6;font-weight:500">تكفيكم لحد الجمعة إذا صرفتوا <span style="background:#E3F2EC;color:#0E3B32;border-radius:8px;padding:0 6px;font-weight:600">27 ألف باليوم</span></p>
+</section>
 
-<p style="margin:2px 0 0;font-size:19px;line-height:1.6;font-weight:500">تكفيكم لحد الجمعة، إذا صرفتوا <span style="background:#E3F2EC;color:#0E3B32;border-radius:8px;padding:0 6px;font-weight:600">27 ألف باليوم</span></p>
-
-<div aria-label="صرف كل يوم بالألف: سبت 26، أحد 19، اثنين 7، اليوم 32" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:14px">
+<div aria-label="صرف كل يوم بالألف: سبت 26، أحد 19، اثنين 7، اليوم 32" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:12px">
 <div class="day"><div class="bar"><div style="width:100%;height:80%;background:#1B675B"></div></div><span class="n" style="font-size:11.5px">26</span><span style="font-size:10.5px;color:#5C6662">سبت</span></div>
 <div class="day"><div class="bar"><div style="width:100%;height:60%;background:#1B675B"></div></div><span class="n" style="font-size:11.5px">19</span><span style="font-size:10.5px;color:#5C6662">أحد</span></div>
 <div class="day"><div class="bar"><div style="width:100%;height:24%;background:#1B675B"></div></div><span class="n" style="font-size:11.5px">7</span><span style="font-size:10.5px;color:#5C6662">اثنين</span></div>
@@ -50,26 +53,47 @@ button{font-family:inherit;cursor:pointer}
 <div class="day"><div class="bar" style="background:transparent;border:1px dashed #D3DBD7;box-sizing:border-box"></div><span style="font-size:11.5px;color:#8A9692">—</span><span style="font-size:10.5px;color:#8A9692">جمعة</span></div>
 </div>
 
-<a href="#" style="margin-top:14px;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:#FFF4DA;text-decoration:none;color:#111714">
-<span class="n" style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#F2C14E,#C98E16);color:#2B1D00;display:flex;align-items:center;justify-content:center;flex:none;font-size:17px;font-weight:600">3</span>
+<a href="#" style="margin-top:14px;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:18px;background:#FFF4DA;text-decoration:none;color:#111714">
+<span style="position:relative;width:42px;height:42px;border-radius:14px;background:#FFFFFF;color:#0E3B32;display:flex;align-items:center;justify-content:center;flex:none;--bg:#FFFFFF"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="16" height="11" rx="2" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7"></rect><rect x="5" y="8" width="4.2" height="3.2" rx=".8" fill="#D8AE55"></rect><path d="M5 13.3h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M14.5 12.5h7v5.5h-3.2l-2.3 2.4V18h-1.5z" fill="var(--bg)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path><circle cx="16.8" cy="15.2" r=".9" fill="#D8AE55"></circle><circle cx="19.2" cy="15.2" r=".9" fill="#D8AE55"></circle></svg><span class="n" style="position:absolute;top:-5px;left:-5px;min-width:20px;height:20px;border-radius:10px;background:#C4553A;color:#fff;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center">3</span></span>
 <span style="flex:1;font-size:15px;font-weight:600;line-height:1.4">صرفات من الكي كارد تنتظركم<br><span style="font-size:12.5px;font-weight:400;color:#6B5A2B">24 ألف · 15 ألف · 6 آلاف</span></span>
 <span style="height:36px;display:flex;align-items:center;padding:0 12px;border-radius:12px;background:#111714;color:#fff;font-size:13px;font-weight:600">أكّدوها</span>
 </a>
 
-<p style="margin:12px 0 0;font-size:13.5px;line-height:1.8;color:#5C6662;text-align:center">«كيلوا طعامكم يُبارك لكم» <span style="font-size:11.5px">· رواه البخاري</span></p>
+<section aria-label="صرفات اليوم" style="margin-top:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 2px"><span style="font-size:15px;font-weight:600">صرفات اليوم</span><span style="font-size:13px;color:#5C6662">المجموع <b class="n" style="color:#111714">32</b> ألف</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #EEF1EF">
+<span class="ico" style="--bg:#F2F6F4"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 7V5.2a1.5 1.5 0 0 1 3 0V7" fill="none" stroke="currentColor" stroke-width="1.7"></path><path d="M8.5 7h7v2.3l1.2 1.6v9a2 2 0 0 1-2 2H9.3a2 2 0 0 1-2-2v-9l1.2-1.6z" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><path d="M7.9 14.5h8.2v5a1.6 1.6 0 0 1-1.6 1.6H9.5a1.6 1.6 0 0 1-1.6-1.6z" fill="#D8AE55" fill-opacity=".9"></path></svg></span>
+<span style="flex:1;min-width:0"><span style="display:block;font-size:15px;line-height:1.4">حفاظات وحليب</span><span style="display:block;font-size:12px;color:#5C6662">ماما · الصبح · من رسالة</span></span>
+<b class="n" style="font-size:15px;font-weight:500">24,000</b>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:8px 0">
+<span class="ico" style="--bg:#F2F6F4"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12.8C6 7 18 5.4 21.5 9.8 18 15.8 6 17.4 2.5 12.8z" fill="#D8AE55" fill-opacity=".38" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><path d="M8 10.4l1.4 3.3M12 9.4l1.4 3.4M16 9.1l1.2 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M16.5 20.5c1.6-2.8 4-3.4 5-3.4-.4 2.6-2.6 4-5 3.4z" fill="#1B675B"></path></svg></span>
+<span style="flex:1;min-width:0"><span style="display:block;font-size:15px;line-height:1.4">صمون وخضرة</span><span style="display:block;font-size:12px;color:#5C6662">بابا · العصر · بالصوت</span></span>
+<b class="n" style="font-size:15px;font-weight:500">8,000</b>
+</div>
+</section>
+
+<section aria-label="الظروف" style="margin-top:14px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 2px"><span style="font-size:15px;font-weight:600">باقي بالظروف</span><a href="D_Month.dc.html" style="font-size:13px;font-weight:600;text-decoration:none">كل الظروف ←</a></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px">
+<a href="#" style="text-decoration:none;color:#111714;border:1px solid #E6ECE9;border-radius:16px;padding:10px;background:#fff;--bg:#fff"><span style="display:flex;align-items:center;gap:6px;font-size:13px;color:#5C6662"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="color:#0E3B32"><path d="M2.5 12.8C6 7 18 5.4 21.5 9.8 18 15.8 6 17.4 2.5 12.8z" fill="#D8AE55" fill-opacity=".38" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><path d="M8 10.4l1.4 3.3M12 9.4l1.4 3.4M16 9.1l1.2 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M16.5 20.5c1.6-2.8 4-3.4 5-3.4-.4 2.6-2.6 4-5 3.4z" fill="#1B675B"></path></svg>الأكل</span><span style="display:block;margin-top:4px"><b class="n" style="font-size:20px;font-weight:500">210</b> <span style="font-size:12px">ألف</span></span><span style="display:block;height:6px;border-radius:3px;background:#EEF2F0;margin-top:6px;overflow:hidden"><span style="display:block;width:58%;height:100%;background:#1B675B;border-radius:3px"></span></span></a>
+<a href="#" style="text-decoration:none;color:#111714;border:1px solid #E6ECE9;border-radius:16px;padding:10px;background:#fff;--bg:#fff"><span style="display:flex;align-items:center;gap:6px;font-size:13px;color:#5C6662"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="color:#0E3B32"><path d="M10.5 7V5.2a1.5 1.5 0 0 1 3 0V7" fill="none" stroke="currentColor" stroke-width="1.7"></path><path d="M8.5 7h7v2.3l1.2 1.6v9a2 2 0 0 1-2 2H9.3a2 2 0 0 1-2-2v-9l1.2-1.6z" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><path d="M7.9 14.5h8.2v5a1.6 1.6 0 0 1-1.6 1.6H9.5a1.6 1.6 0 0 1-1.6-1.6z" fill="#D8AE55" fill-opacity=".9"></path></svg>الطفل</span><span style="display:block;margin-top:4px"><b class="n" style="font-size:20px;font-weight:500">64</b> <span style="font-size:12px">ألف</span></span><span style="display:block;height:6px;border-radius:3px;background:#EEF2F0;margin-top:6px;overflow:hidden"><span style="display:block;width:32%;height:100%;background:#1B675B;border-radius:3px"></span></span></a>
+<a href="#" style="text-decoration:none;color:#111714;border:1px solid #F1D9CF;border-radius:16px;padding:10px;background:#FFF8F5;--bg:#FFF8F5"><span style="display:flex;align-items:center;gap:6px;font-size:13px;color:#5C6662"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="color:#0E3B32"><rect x="3" y="5" width="13" height="15" rx="2" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7"></rect><path d="M10.8 7.5 7.6 12.6h3l-1.6 4.9 3.6-5.6h-3l1.2-4.4z" fill="#D8AE55"></path><path d="M16 9.5h2.5a2 2 0 0 1 2 2V16a2.5 2.5 0 0 1-2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>المولدة</span><span style="display:block;margin-top:4px"><b class="n" style="font-size:20px;font-weight:500;color:#A6412A">5</b> <span style="font-size:12px">آلاف</span></span><span style="display:block;height:6px;border-radius:3px;background:#F6E3DC;margin-top:6px;overflow:hidden"><span style="display:block;width:9%;height:100%;background:#C4553A;border-radius:3px"></span></span></a>
+</div>
+</section>
 
 <div style="flex:1"></div>
 
 <div role="group" aria-label="سجّلوا صرفة" style="display:flex;gap:8px;align-items:stretch">
-<a href="E_Add.dc.html" style="flex:1;height:66px;border-radius:22px;background:#0E3B32;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-size:19px;font-weight:700;box-shadow:0 16px 28px -14px rgba(14,59,50,.65)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E9C979" stroke-width="2.6" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>صرفت</a>
-<a href="#" aria-label="گولوها بصوتكم" style="width:66px;height:66px;border-radius:22px;background:linear-gradient(180deg,#F0D48F,#D8AE55);display:flex;align-items:center;justify-content:center;color:#2B1D00;box-shadow:0 16px 28px -14px rgba(184,141,58,.7)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></a>
+<a href="E_Add.dc.html" style="flex:1;height:64px;border-radius:22px;background:#0E3B32;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-size:19px;font-weight:700;box-shadow:0 16px 28px -14px rgba(14,59,50,.65);--bg:#0E3B32"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6.5" width="15" height="10" rx="1.8" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="1.7"></rect><circle cx="8" cy="11.5" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="17.5" cy="16.5" r="4.8" fill="#D8AE55"></circle><path d="M17.5 14.2v4.6M15.2 16.5h4.6" stroke="#2B1D00" stroke-width="1.8" stroke-linecap="round"></path></svg>صرفت</a>
+<a href="#" aria-label="گولوها بصوتكم" style="width:64px;height:64px;border-radius:22px;background:linear-gradient(180deg,#F0D48F,#D8AE55);display:flex;align-items:center;justify-content:center;color:#2B1D00;box-shadow:0 16px 28px -14px rgba(184,141,58,.7)"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7"></rect><path d="M10.6 6.5h2.8M10.6 9.5h2.8" stroke="#FFF4DA" stroke-width="1.6" stroke-linecap="round"></path><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg></a>
 </div>
 
-<nav aria-label="التنقل" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));font-size:13.5px;margin-top:8px">
-<a href="#" style="min-height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#0E3B32;font-weight:600;text-decoration:none"><span style="width:18px;height:3px;border-radius:2px;background:#D8AE55"></span>اليوم</a>
-<a href="D_Month.dc.html" style="min-height:46px;display:flex;align-items:center;justify-content:center;color:#5C6662;text-decoration:none">الشهر</a>
-<a href="E_Report.dc.html" style="min-height:46px;display:flex;align-items:center;justify-content:center;color:#5C6662;text-decoration:none">وين راحت</a>
-<a href="#" style="min-height:46px;display:flex;align-items:center;justify-content:center;color:#5C6662;text-decoration:none">العائلة</a>
+<nav aria-label="التنقل" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin-top:8px">
+<a href="#" class="tab" style="color:#0E3B32;font-weight:600;background:#EAF3EF;--bg:#EAF3EF"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="15" height="9" rx="1.8" transform="rotate(-9 10 10.5)" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7"></rect><rect x="6.5" y="9.5" width="15" height="9" rx="1.8" fill="var(--bg)"></rect><rect x="6.5" y="9.5" width="15" height="9" rx="1.8" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7"></rect><circle cx="11" cy="14" r="2.1" fill="none" stroke="#D8AE55" stroke-width="1.6"></circle><path d="M15.5 12.5h3.5M15.5 15.5h2.2" stroke="#D8AE55" stroke-width="1.6" stroke-linecap="round"></path></svg>اليوم</a>
+<a href="D_Month.dc.html" class="tab" style="--bg:#FFFFFF"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.8" width="10" height="9" rx="1.3" fill="#D8AE55"></rect><path d="M9.5 5.8h5" stroke="var(--bg)" stroke-width="1.3" stroke-linecap="round"></path><rect x="3" y="9" width="18" height="12" rx="2.2" fill="var(--bg)"></rect><rect x="3" y="9" width="18" height="12" rx="2.2" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7"></rect><path d="M3.6 10.4 12 16l8.4-5.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path></svg>الظروف</a>
+<a href="E_Report.dc.html" class="tab"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="12" width="5" height="9" rx="1.2"></rect><rect x="9.5" y="4.5" width="5" height="16.5" rx="1.2"></rect><rect x="16" y="9" width="5" height="12" rx="1.2"></rect></g><path d="M3 16.3h5M9.5 12.5h5M16 14.8h5" stroke="#D8AE55" stroke-width="2.4"></path></svg>وين راحت</a>
+<a href="#" class="tab"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 21V11.5a7.5 7.5 0 0 1 15 0V21z" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><circle cx="9.2" cy="11.8" r="1.8" fill="currentColor"></circle><circle cx="14.8" cy="11.8" r="1.8" fill="currentColor"></circle><path d="M6.9 18.8c0-2 1-3.2 2.3-3.2s2.3 1.2 2.3 3.2M12.5 18.8c0-2 1-3.2 2.3-3.2s2.3 1.2 2.3 3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="12" cy="17.3" r="1.4" fill="#D8AE55"></circle></svg>العائلة</a>
 </nav>
 </div>
 </x-dc>
