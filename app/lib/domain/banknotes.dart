@@ -122,3 +122,23 @@ String easternDigits(int value) {
   const e = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
   return value.toString().split('').map((c) => e[int.parse(c)]).join();
 }
+
+/// "4 ورقات 25 ألف + ورقة 5 آلاف", largest note first.
+String notesSentence(int amount) {
+  final counts = <int, int>{};
+  for (final n in breakdown(amount)) {
+    counts[n] = (counts[n] ?? 0) + 1;
+  }
+  final parts = [
+    for (final d in kDenominations)
+      if (counts[d] case final c?) '${_sheets(c)} ${shortNoteLabel(d)}',
+  ];
+  return parts.join(' + ');
+}
+
+String _sheets(int n) => switch (n) {
+      1 => 'ورقة',
+      2 => 'ورقتين',
+      <= 10 => '$n ورقات',
+      _ => '$n ورقة',
+    };

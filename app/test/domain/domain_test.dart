@@ -273,4 +273,19 @@ void main() {
       expect(r.netPosition(currentRound: 4), -400000);
     });
   });
+
+  group('plain speech', () {
+    test('amounts in thousands', () {
+      expect(inThousands(120000), '120 ألف');
+      expect(inThousands(1000), 'ألف');
+      expect(inThousands(1250000), '1,250 ألف');
+      expect(inThousands(27250), '27,250');
+      expect(inThousands(750), '750');
+    });
+    test('notes sentence', () {
+      expect(notesSentence(109000), '4 ورقات 25 ألف + ورقة 5 آلاف + 4 ورقات ألف');
+      expect(notesSentence(60000), 'ورقتين 25 ألف + ورقة 10 آلاف');
+      expect(notesSentence(0), '');
+    });
+  });
 }

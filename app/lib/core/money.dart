@@ -56,3 +56,11 @@ int floorTo(int value, int step) => value <= 0 ? 0 : (value ~/ step) * step;
 
 /// Rounds to the nearest multiple of [step].
 int roundTo(int value, int step) => ((value + step ~/ 2) ~/ step) * step;
+
+/// How amounts are said aloud: 120000 → "120 ألف", 1000 → "ألف".
+/// Amounts that are not whole thousands keep their digits.
+String inThousands(int value) {
+  if (value.abs() < 1000 || value % 1000 != 0) return formatAmount(value);
+  final k = value ~/ 1000;
+  return k == 1 ? 'ألف' : '${formatAmount(k)} ألف';
+}
