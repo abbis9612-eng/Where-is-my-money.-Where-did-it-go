@@ -14,6 +14,7 @@ import '../../domain/barakah.dart';
 import '../widgets/barakah_card.dart';
 import 'giving_screen.dart';
 import '../theme/theme.dart';
+import '../widgets/wf_icons.dart';
 import '../widgets/banknote.dart';
 import '../widgets/common.dart';
 import '../widgets/guilloche.dart';
@@ -32,7 +33,7 @@ class EnvelopesScreen extends ConsumerWidget {
     final bills = snap.bills.where((b) => b.active).toList()..sort((a, b) => a.dayOfMonth.compareTo(b.dayOfMonth));
     return SafeArea(
       bottom: false,
-      child: ListView(padding: const EdgeInsets.only(bottom: 24), children: [
+      child: ListView(padding: const EdgeInsets.only(bottom: 96), children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -387,7 +388,7 @@ class _SadaqaRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const GivingScreen())),
       child: Row(children: [
-        Icon(Icons.volunteer_activism_outlined, color: wf.goldInk),
+        WfIcon(WfGlyph.sadaqa, size: 26, color: Theme.of(context).brightness == Brightness.dark ? wf.mint : Wf.vaultGreen),
         const SizedBox(width: 12),
         Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

@@ -16,6 +16,7 @@ import '../../sync/sync_service.dart';
 import '../theme/theme.dart';
 import '../widgets/banknote.dart';
 import '../widgets/common.dart';
+import '../widgets/wf_icons.dart';
 import '../widgets/guilloche.dart';
 import '../widgets/odometer.dart';
 
@@ -289,7 +290,7 @@ class _AddSheetState extends ConsumerState<AddSheet> {
                 child: InkWell(
                   customBorder: const CircleBorder(),
                   onTap: _startVoice,
-                  child: SizedBox.square(dimension: 56, child: Icon(Icons.mic_none, color: wf.ink)),
+                  child: SizedBox.square(dimension: 56, child: Center(child: WfIcon(WfGlyph.mic, size: 28, color: wf.ink))),
                 ),
               ),
             ),
@@ -352,7 +353,7 @@ class _AddSheetState extends ConsumerState<AddSheet> {
         ),
       ),
       SizedBox(
-        height: 52,
+        height: 84,
         child: ListView(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
@@ -360,11 +361,15 @@ class _AddSheetState extends ConsumerState<AddSheet> {
             for (final c in cats)
               Padding(
                 padding: const EdgeInsetsDirectional.only(end: 8),
-                child: WfChip(
+                child: CategoryTile(
+                  categoryKey: c.key,
                   label: c.name,
                   selected: _category == c.key,
                   tag: c.key == suggested ? 'عادةً هسه' : null,
-                  onTap: () => setState(() => _category = c.key),
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    setState(() => _category = c.key);
+                  },
                 ),
               ),
           ],
@@ -409,8 +414,8 @@ class _AddSheetState extends ConsumerState<AddSheet> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(color: wf.surface, borderRadius: BorderRadius.circular(16)),
           child: Row(children: [
-            MiniNote(denominationFor(toBaseIqd(i.amountMinor, i.currency, snap.household.usdRate)), width: 46, showLabel: false),
-            const SizedBox(width: 10),
+            WfIconTile(glyphForCategory(i.categoryKey), size: 42),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(i.label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, height: 1.4)),

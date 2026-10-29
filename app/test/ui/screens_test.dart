@@ -106,8 +106,8 @@ void main() {
   testWidgets('week', (tester) async {
     await boot(tester);
     await shot(tester, '01_week');
-    await tester.tap(find.bySemanticsLabel(RegExp('رزمة الأسبوع')));
-    await shot(tester, '02_week_spread');
+    await tester.drag(find.byType(CustomScrollView).first, const Offset(0, -500));
+    await shot(tester, '02_week_lower');
     await done(tester);
   });
 

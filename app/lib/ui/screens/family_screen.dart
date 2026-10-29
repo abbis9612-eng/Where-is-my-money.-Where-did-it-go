@@ -15,6 +15,7 @@ import '../../domain/barakah.dart';
 import '../widgets/barakah_card.dart';
 import 'giving_screen.dart';
 import '../theme/theme.dart';
+import '../widgets/wf_icons.dart';
 import '../widgets/common.dart';
 import 'friday_screen.dart';
 import 'kid_screen.dart';
@@ -32,7 +33,7 @@ class FamilyScreen extends ConsumerWidget {
     final total = spent.fold(0, (a, b) => a + b);
     return SafeArea(
       bottom: false,
-      child: ListView(padding: const EdgeInsets.only(bottom: 28), children: [
+      child: ListView(padding: const EdgeInsets.only(bottom: 96), children: [
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(20, 10, 8, 0),
           child: Row(children: [
@@ -79,7 +80,7 @@ class FamilyScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const GivingScreen())),
           child: Row(children: [
-            Icon(Icons.volunteer_activism_outlined, color: wf.goldInk),
+            WfIcon(WfGlyph.sadaqa, size: 26, color: Theme.of(context).brightness == Brightness.dark ? wf.mint : Wf.vaultGreen),
             const SizedBox(width: 12),
             Expanded(
               child: Text(snap.sadaqa == null ? 'ظرف صدقة من الراتب، حاسبة الزكاة، وزكاة الفطر' : 'ظرف الصدقة بيه ${inThousands(snap.sadaqa!.balance)} · حاسبة الزكاة · زكاة الفطر',
