@@ -54,4 +54,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Migrations and family isolation (row-level security)
-        run: PG_BIN=/usr/lib/postgresql/16/bin supabase/tests/run.sh
+        # Use whichever Postgres the runner image ships (15 or newer).
+        run: PG_BIN=$(ls -d /usr/lib/postgresql/*/bin | sort -V | tail -1) supabase/tests/run.sh
